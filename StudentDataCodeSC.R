@@ -1,0 +1,12 @@
+library(dplyr)
+library(readxl)
+library(tidyverse)
+library(tidyr)
+library(ggplot2)
+library(stringr)
+setwd('H:/Data332/StudentData')
+df_courses <- readxl::read_excel('Course.xlsx', sheet = 1, skip = 3, .name_repair = 'universal')
+df_registration <- readxl::read_excel('Registration.xlsx', sheet = 1, skip = 3, .name_repair = 'universal')
+df_student <- readxl::read_excel('Student.xlsx', sheet = 1, skip = 3, .name_repair = 'universal')
+df <- left_join()
+

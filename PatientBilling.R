@@ -39,3 +39,10 @@ df_reason_by_zip <- df%>%
 ggplot(df_reason_by_zip, aes(x = Zip, y= count))+
   geom_col()+
   theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))
+
+df_invoice_by_reason <- df %>%
+  group_by(Reason) %>%
+  summarize(count = sum(invoice))
+ggplot(df_invoice_by_reaon, aes(x = reason, y = count))+
+geom_col()+
+theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))

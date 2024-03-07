@@ -46,3 +46,11 @@ df_invoice_by_reason <- df %>%
 ggplot(df_invoice_by_reaon, aes(x = reason, y = count))+
 geom_col()+
 theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))
+
+df_reason_by_month <- df %>%
+  group_by(Month) %>%
+  summarize(count = sum(Reason))
+ggplot(df_reason_by_month, aes(x = reason, y = count),col =c("red", "blue"))+
+geom_col()+
+theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1)
+

@@ -19,17 +19,10 @@ ggplot(df_reason, aes(x = Reason, y= count))+
   geom_col()+
   theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))
 
-df_reason_by_city <- df%>%
-  group_by(Reason, City) %>%
+df_reason_by_city_state <- df%>%
+  group_by(Reason, City, State) %>%
   summarize(count = n())
-ggplot(df_reason_by_city, aes(x = City, y= count))+
-  geom_col()+
-  theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))
-
-df_reason_by_state <- df%>%
-  group_by(Reason, State) %>%
-  summarize(count = n())
-ggplot(df_reason_by_state, aes(x = State, y= count))+
+ggplot(df_reason_by_city_state, aes(x = City, State, y= count))+
   geom_col()+
   theme(axis.text = element_text(angle = 45, vjust = .5, hjust = 1))
 

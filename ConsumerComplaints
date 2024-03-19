@@ -18,14 +18,9 @@ get_sentiments("bing")
 get_sentiments("nrc")
 
 #sentiment analysis
-data <- consumer_complaints %>%
-  mutate(text = tolower(text)) %>%  # Convert text to lowercase
-  unnest_tokens(word, text)         # Tokenize the text into words
-data <- data %>%
-  inner_join(get_sentiments("afinn"), by = "word") %>%
-  group_by(Product) %>%
-  summarise(sentiment_score = sum(value)) %>%
-  ungroup()
+### Try this from blake: takes out the blanks 
+filter (Consumer_complaints.narrative != '')
+## now take this and get it to each word is its own row
 
 #word cloud
 text_corpus <- data$text

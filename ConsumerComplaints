@@ -1,30 +1,33 @@
 library(tidytext)
 library(textdata)
 library(ggplot2)
-library(janeaustenr)
 library(dplyr)
 library(stringr)
 library(tidyr)
 library(wordcloud)
 library(tidyr)
 library(tidyverse)
-library(readxl)
+library(syuzhet)
+library(bit)
 
-setwd('H:/Data332/ConsumerComplaint')
-consumer_complaints <- read.csv('Consumer_Complaints.csv')
+setwd('C:/Users/smc91/OneDrive/Desktop/RStudioProj')
+df <- read.csv('Consumer_Complaints.csv')
 
 get_sentiments("afinn")
 get_sentiments("bing")
 get_sentiments("nrc")
 
 #sentiment analysis
-### Try this from blake: takes out the blanks 
-filter (Consumer_complaints.narrative != '')
-## now take this and get it to each word is its own row
+no_blanks <- filter (df, df$Consumer.complaint.narrative != '')
+# now take this and get it to each word is its own cell
+no_blanks <- no_blanks %>%
+  mutate(Consumer.complaint.narrative = str_split(Consumer.complaint.narrative, "\\s+"))
+no_blanks <- unnest(no_blanks, Consumer.complaint.narrative)
+print(no_blanks)
 
-#word cloud
-text_corpus <- data$text
-text_corpus <- tolower(text_corpus)  # Convert text to lowercase
-text_corpus <- removePunctuation(text_corpus)  # Remove punctuation
-text_corpus <- removeNumbers(text_corpus)  # Remove numbers
-wordcloud(text_corpus, min.freq = 5, random.order = FALSE)
+nrc_negative <- get_sentiments("nrc") %>% 
+  filter(sentiment == "negative")
+no_blanks %>%
+  filter(no_blanks == 'Consumer.complaint.narrative') %>%
+  inner_join(nrc_negative)%>%
+  count(word, sort = TRUE)

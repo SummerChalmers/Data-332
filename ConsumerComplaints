@@ -28,6 +28,6 @@ print(no_blanks)
 nrc_negative <- get_sentiments("nrc") %>% 
   filter(sentiment == "negative")
 no_blanks %>%
-  filter(no_blanks == 'Consumer.complaint.narrative') %>%
+  filter(no_blanks == "Consumer.complaint.narrative")
   inner_join(nrc_negative)%>%
   count(word, sort = TRUE)

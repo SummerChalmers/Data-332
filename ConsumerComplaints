@@ -17,10 +17,19 @@ get_sentiments("afinn")
 get_sentiments("bing")
 get_sentiments("nrc")
 
+#sentiment analysis
+data <- consumer_complaints %>%
+  mutate(text = tolower(text)) %>%  # Convert text to lowercase
+  unnest_tokens(word, text)         # Tokenize the text into words
+data <- data %>%
+  inner_join(get_sentiments("afinn"), by = "word") %>%
+  group_by(Product) %>%
+  summarise(sentiment_score = sum(value)) %>%
+  ungroup()
 
-nrc_yes <- get_sentiments("nrc") %>% 
-  filter(sentiment == "yes")
-consumer_complaints %>%
-  filter(Consumer.disputed. == "yes") %>%
-  inner_join(nrc_yes) %>%
-  count(word, sort = TRUE)
+#word cloud
+text_corpus <- data$text
+text_corpus <- tolower(text_corpus)  # Convert text to lowercase
+text_corpus <- removePunctuation(text_corpus)  # Remove punctuation
+text_corpus <- removeNumbers(text_corpus)  # Remove numbers
+wordcloud(text_corpus, min.freq = 5, random.order = FALSE)

@@ -1,0 +1,26 @@
+library(tidytext)
+library(textdata)
+library(ggplot2)
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(wordcloud)
+library(tidyr)
+library(tidyverse)
+library(readxl)
+
+setwd('H:/Data332/ConsumerComplaint')
+consumer_complaints <- read.csv('Consumer_Complaints.csv')
+
+get_sentiments("afinn")
+get_sentiments("bing")
+get_sentiments("nrc")
+
+
+nrc_yes <- get_sentiments("nrc") %>% 
+  filter(sentiment == "yes")
+consumer_complaints %>%
+  filter(Consumer.disputed. == "yes") %>%
+  inner_join(nrc_yes) %>%
+  count(word, sort = TRUE)

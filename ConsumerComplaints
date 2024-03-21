@@ -18,12 +18,23 @@ get_sentiments("bing")
 get_sentiments("nrc")
 
 #sentiment analysis
-no_blanks <- filter (df, df$Consumer.complaint.narrative != '')
+sentiment analysis
+df <- df %>%
+  filter (Consumer.complaint.narrative != '')
 # now take this and get it to each word is its own cell
-no_blanks <- no_blanks %>%
+row_words <- df %>%
   mutate(Consumer.complaint.narrative = str_split(Consumer.complaint.narrative, "\\s+"))
-no_blanks <- unnest(no_blanks, Consumer.complaint.narrative)
-print(no_blanks)
+row_words<- unnest(row_words, Consumer.complaint.narrative)
+#now take all the crap out 
+clean_text <- function(text){
+  clean_text <- gsub('[[punct:]]', '', text)
+  clean_text <- tolower(clean_text)
+  return(clean_text)
+}
+row_words$Consumer.complaint.narrative <- clean_text(row_words$Consumer.complaint.narrative)
+row_words <- row_words%>%
+  filter(Consumer.complaint.narrative != '')
+
 
 nrc_negative <- get_sentiments("nrc") %>% 
   filter(sentiment == "negative")
